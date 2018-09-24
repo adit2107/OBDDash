@@ -1,0 +1,11 @@
+{
+  "name": "",
+  "version": "",
+  "dependencies": {
+    "express": "^4.16.3",
+    "gridstack": "^0.4.0",
+    "nodemon": "^1.18.4",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1"
+  }
+}
