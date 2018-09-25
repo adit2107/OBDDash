@@ -98,8 +98,8 @@
 
 var socket = io.connect('http://localhost:3001');
 socket.on('coord', function(data){
-  console.log(data);
-  socket.emit('my other event', { my: 'data1' });
+  loadMapScenario(data.x, data.y);
+  alert(data.x, data.y);
 });
 
 var options = {
@@ -109,12 +109,12 @@ $(function () {
     $('.grid-stack').gridstack(options);
 });
 
-function loadMapScenario(){
+function loadMapScenario(x, y){
 var map = new Microsoft.Maps.Map(document.getElementById('bingmap'), {});
 Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
     var searchManager = new Microsoft.Maps.Search.SearchManager(map);
     var reverseGeocodeRequestOptions = {
-        location: new Microsoft.Maps.Location(47.640049, -122.129797),
+        location: new Microsoft.Maps.Location(x, y),
         callback: function (answer, userData) {
             map.setView({ bounds: answer.bestView });
             map.entities.push(new Microsoft.Maps.Pushpin(reverseGeocodeRequestOptions.location));

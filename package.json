@@ -2,6 +2,10 @@
   "name": "",
   "version": "",
   "dependencies": {
+    "azure-event-hubs": "^0.2.11",
+    "azure-iot-device": "^1.7.4",
+    "azure-iot-device-http": "^1.7.4",
+    "azure-iothub": "^1.7.4",
     "express": "^4.16.3",
     "gridstack": "^0.4.0",
     "nodemon": "^1.18.4",
