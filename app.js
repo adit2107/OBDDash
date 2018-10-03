@@ -2,11 +2,8 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-
 var Client = require('azure-iothub').Client;
 var connectionString = 'HostName=boschhub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=UbP3q1C2JjBTkeEt4j5D+HREOl0pfgOwxmg3XxC+gXY=';
-
-// var client = Client.fromConnectionString(connectionString);
 
 var { EventHubClient, EventPosition } = require('azure-event-hubs');
 
@@ -16,18 +13,15 @@ var printError = function (err) {
 
 var printMessage = function (message) {
   console.log('Telemetry received: ');
-  console.log(JSON.stringify(message.body));
+  var datarec = JSON.stringify(message.body);
+  var datajson = JSON.parse(datarec);
+  console.log(datajson);
   console.log('Application properties (set by device): ')
   console.log(JSON.stringify(message.applicationProperties));
   console.log('System properties (set by IoT Hub): ')
   console.log(JSON.stringify(message.annotations));
   console.log('');
-
-  io.on('connection', function (socket) {
-    setInterval(function(){
-      socket.emit('coord', {'x': '-77.243234', 'y': '23.343434'});
-    }, 10000);
-  });
+  sendData(datajson);
 };
 
 var ehClient;
@@ -45,11 +39,19 @@ EventHubClient.createFromIotHubConnectionString(connectionString).then(function 
 server.listen(3001);
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/test.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
-// io.on('connection', function (socket) {
-//   setInterval(function(){
-//     socket.emit('coord', { x: '19.0760', y: '72.8777' });
-//   }, 10000);
-// });
+function sendData(msg){
+    io.on('connection', function (socket) {
+    setInterval(function(){
+      socket.emit('coolant', {'coolant': msg["Coolant"]});
+      socket.emit('coord', {'x': msg["LA"], 'y': msg["LO"]});
+      socket.emit('rpm', {'rpm': msg["RPM"]});
+      socket.emit('speed', {'speed': msg["Speed"]});
+      socket.emit('engine', {'engine': msg["Engine"]});
+      socket.emit('tp', {'tp': msg["TP"]});
+
+    }, 10000);
+  });
+}
