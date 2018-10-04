@@ -1,9 +1,10 @@
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
+const express = require('express');
 var Client = require('azure-iothub').Client;
-var connectionString = 'HostName=boschhub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=UbP3q1C2JjBTkeEt4j5D+HREOl0pfgOwxmg3XxC+gXY=';
+var connectionString = 'HostName=iothubtest1234.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=C4kzoiLVFlJJ2/Nd3mvXGYxYbiCtWH24eMUuZOVSD3c=';
+app.use(express.static('public'));
 
 var { EventHubClient, EventPosition } = require('azure-event-hubs');
 
@@ -37,6 +38,7 @@ EventHubClient.createFromIotHubConnectionString(connectionString).then(function 
 }).catch(printError);
 
 server.listen(3001);
+
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');

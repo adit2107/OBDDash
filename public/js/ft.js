@@ -2,16 +2,13 @@ FusionCharts.ready(function(){
 var fusioncharts = new FusionCharts({
 type: 'thermometer',
 renderAt: 'chart-container',
-width: '240',
-height: '310',
+width: '140px',
+height: '200px',
 dataFormat: 'json',
 dataSource: {
     "chart": {
-        "caption": "Temperature Monitor",
-        "subcaption": " Central cold store",
-        "lowerLimit": "-10",
-        "upperLimit": "0",
-
+        "lowerLimit": "10",
+        "upperLimit": "90",
         "decimals": "1",
         "numberSuffix": "°C",
         "showhovereffect": "1",
@@ -39,7 +36,7 @@ dataSource: {
                     //Rectangle item
                     "type": "rectangle",
                     "alpha": "50",
-                    "fillColor": "#AABBCC",
+                    "fillColor": "#FFFFFF",
                     "x": "$gaugeEndX-40",
                     "tox": "$gaugeEndX",
                     "y": "$gaugeEndY+54",
