@@ -54,6 +54,6 @@ function sendData(msg){
       socket.emit('engine', {'engine': msg["Engine"]});
       socket.emit('tp', {'tp': msg["TP"]});
 
-    }, 5000);
+    }, 200);
   });
 }
