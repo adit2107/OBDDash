@@ -7,6 +7,7 @@ var connectionString = 'HostName=iothubtest1234.azure-devices.net;SharedAccessKe
 app.use(express.static('public'));
 
 var { EventHubClient, EventPosition } = require('azure-event-hubs');
+var ehClient;
 
 var printError = function (err) {
   console.log(err.message);
@@ -25,7 +26,6 @@ var printMessage = function (message) {
   sendData(datajson);
 };
 
-var ehClient;
 EventHubClient.createFromIotHubConnectionString(connectionString).then(function (client) {
   console.log("Successully created the EventHub Client from iothub connection string.");
   ehClient = client;
@@ -54,6 +54,6 @@ function sendData(msg){
       socket.emit('engine', {'engine': msg["Engine"]});
       socket.emit('tp', {'tp': msg["TP"]});
 
-    }, 10000);
+    }, 5000);
   });
 }

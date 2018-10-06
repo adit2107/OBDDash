@@ -5,7 +5,7 @@
   <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AjkXX1zT7YHy-_LtxMnidsm-asX1f__I79nFe4BBo2ELOe233gyXIRQnNDK9I1_I&callback=loadMapScenario' async defer></script> -->
-	<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&callback=initMap" async defer></script>
+	<!-- <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&callback=LoadMap" async defer></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 	<link rel="stylesheet" href="https://bootswatch.com/3/paper/bootstrap.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.css"/>
@@ -139,7 +139,23 @@
   </div>
 </div>
 </body>
+<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&callback=LoadMap" async defer></script>
 <script type="text/javascript">
+function LoadMap(){
+map = new google.maps.Map(document.getElementById('bingmap'), {
+	zoom: 5
+      });
+}
+</script>
+<script type="text/javascript">
+// window.onload = function () {
+//         LoadMap();
+// 		};
+var newmarkers = [];
+var marker;
+var map;
+var bounds;
+
 var socket = io.connect('http://localhost:3001');
 socket.on('speed', function(data){
   //alert(data["speed"]);
@@ -204,10 +220,15 @@ socket.on('tp', function(data){
 });
 socket.on('coord', function(data){
 	//alert(data.x, data.y);
-	//loadMapScenario(data.x, data.y);
 	//initMap(data);
+	// console.log("Incoming coords: " + data.x + data.y);
+	// newmarkers.push({lat: data.x, lng: data.y});
+	// console.log("Newest coord" + newmarkers[newmarkers.length-1].lat + "," + newmarkers[newmarkers.length-1].lng);
+	// setInterval(function(){
+	// 	SetMarker(newmarkers[newmarkers.length-1]);
+	// }, 2000);
+	// console.log(newmarkers.length);
 	SetMarker(data);
-	
 });
 
 var options = {
@@ -216,65 +237,31 @@ var options = {
 $(function () {
     $('.grid-stack').gridstack(options);
 });
-window.onload = function(){
-	initMap();
-};
-var map;
-var marker;
 
-function initMap(data) {
-	if (marker != null) {
-             marker.setMap(null);
-         }
-        var mapOptions = {
-					center: new google.maps.LatLng(data.x, data.y),
-            zoom: 5,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById('bingmap'), mapOptions);
-				bounds  = new google.maps.LatLngBounds();  
- 
+function SetMarker(data) {
+				//bounds  = new google.maps.LatLngBounds();
+				//marker.setMap(null);
         //Set Marker on Map.
 				var myLatlng = new google.maps.LatLng(data.x, data.y);
-				//var myLatlng = {lat: data.x, lng: data.y};
+				//var myLatlng = data;
         marker = new google.maps.Marker({
 						position: myLatlng,
 						map: map
 				});
-				console.log('Pos changed' + data.x + "," + data.y);
-				marker.setPosition(myLatlng);
-				bounds.extend(myLatlng);
-				map.fitBounds(bounds);
-				map.panToBounds(bounds);  
-				map.setZoom(10);
-				console.log('Getting position of marker:' + marker.getPosition());	
-				//marker.setMap(null);
-		};
-
-// function SetMarker(data) {
-// 	bounds  = new google.maps.LatLngBounds();
-//         //Remove previous Marker.
-//         if (marker != null) {
-//             marker.setMap(null);
-//         }
- 
-//         //Set Marker on Map.
-// 				var myLatlng = new google.maps.LatLng(data.x, data.y);
-// 				//var myLatlng = {lat: data.x, lng: data.y};
-//         marker = new google.maps.Marker({
-// 						position: myLatlng,
-// 						map: map
-// 				});
-// 				console.log('Pos changed' + data.x + "," + data.y);
-// 				console.log('Getting latlng: ' + myLatlng);
-// 				marker.setPosition(myLatlng);
-// 				bounds.extend(myLatlng);
-// 				map.fitBounds(bounds);
-// 				map.panToBounds(bounds);  
-// 				map.setZoom(10);
-// 				console.log('Getting position of marker:' + marker.getPosition());
-				
-//     };
+				//console.log('Pos changed' + data.x + "," + data.y);
+				console.log('Getting new latlng: ' + myLatlng);
+				console.log('Getting position of marker:' + marker.getPosition());
+				//marker.setMap(map);
+				//marker.setPosition(myLatlng);
+				//bounds.extend(myLatlng);
+				//bounds.extend(marker.getPosition());
+				//map.fitBounds(bounds);
+				//map.panToBounds(bounds);  
+				map.panTo(marker.position);
+				//marker.setMap(map);
+				//map.setZoom(5);
+				//map.setCenter(myLatlng);
+    };
 
 
 </script>
