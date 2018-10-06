@@ -143,6 +143,9 @@
   	</div>
   </div>
 </div>
+<div id="data-receive">
+
+</div>
 </body>
 <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&callback=LoadMap" async defer></script>
 <script type="text/javascript">
@@ -210,6 +213,7 @@ var bounds;
 var socket = io.connect('http://localhost:3001');
 socket.on('speed', function(data){
 	//alert(data["speed"]);
+	$("#data-receive").append(data.speed);
 	setInterval(function(){
 		speedgauge.value = data.speed;
 	}, 1000);
