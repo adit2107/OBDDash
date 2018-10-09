@@ -288,12 +288,6 @@ map = new google.maps.Map(document.getElementById('bingmap'), {
 }
 </script>
 <script type="text/javascript">
-// window.onload = function () {
-//         LoadMap();
-// 		};
-/// Speed Gauge
-
-/////
 var newmarkers = [];
 var marker;
 var map;
@@ -307,30 +301,6 @@ speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
 SetMarker(data);
-});
-
-socket.on('speed', function(data){
-	//alert(data["speed"]);
-		//speedgauge.value = data.speed;
-});
-socket.on('coolant', function(data){
-	 //alert(data["coolant"]);
-	//  $("#data-receive").append("," + data.coolant);
-		//coolantgauge.value = data.coolant;
-});
-socket.on('rpm', function(data){
-	// alert(data["rpm"]);
-		//rpmgauge.value = data.rpm;
-});
-socket.on('engine', function(data){
-  // alert(data["engine"]);
-});
-socket.on('tp', function(data){
-  // alert(data["tp"]);
-});
-socket.on('coord', function(data){
-	//alert(data.x, data.y);
-	//SetMarker(data);
 });
 
 var options = {
@@ -360,6 +330,7 @@ function SetMarker(data) {
 				//map.fitBounds(bounds);
 				//map.panToBounds(bounds);  
 				map.panTo(marker.position);
+				map.zoomTo(marker.position);
 				//marker.setMap(map);
 				//map.setZoom(5);
 				//map.setCenter(myLatlng);
