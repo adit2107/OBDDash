@@ -3,7 +3,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 const express = require('express');
 var Client = require('azure-iothub').Client;
-var connectionString = 'HostName=iothubtest1234.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=C4kzoiLVFlJJ2/Nd3mvXGYxYbiCtWH24eMUuZOVSD3c=';
+var connectionString = 'HostName=boschobdhub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=YikEJcyItrdki7oseT47Pyi6vULcM+tSLj1p2KTgg1Q=';
 
 app.use(express.static('public'));
 app.get('/', function (req, res) {

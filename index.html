@@ -206,12 +206,13 @@ var coolantgauge = new LinearGauge({
     width: 100,
     height: 190,
     units: "°C",
-    minValue: 40,
+    minValue: 20,
     startAngle: 90,
     ticksAngle: 180,
     valueBox: true,
     maxValue: 120,
     majorTicks: [
+		"20",
         "40",
         "60",
         "80",
@@ -305,7 +306,7 @@ $("#data-receive").append("," + data["RPM"]);
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
-SetMarker(data);
+//SetMarker(data);
 });
 
 var options = {
