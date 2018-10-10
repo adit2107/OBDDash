@@ -72,7 +72,7 @@
 	}
 
 	#rpm-id{
-		margin-top: 5px;
+		margin-top: 30px;
 		margin-right: 20px;
 	}
   </style>
@@ -160,13 +160,13 @@
 <script type="text/javascript">
 var rpmgauge = new RadialGauge({
     renderTo: 'rpm-id',
-    width: 300,
-    height: 190,
+    width: 350,
+    height: 200,
     units: "RPM x1000",
     minValue: 0,
     startAngle: 90,
     ticksAngle: 180,
-    valueBox: true,
+    valueBox: false,
     maxValue: 8000,
     majorTicks: [
         "0",
@@ -179,7 +179,7 @@ var rpmgauge = new RadialGauge({
         "7",
         "8"
     ],
-    minorTicks: 3,
+    minorTicks: 10,
     strokeTicks: true,
     highlights: [
         {
@@ -197,7 +197,9 @@ var rpmgauge = new RadialGauge({
     needleCircleOuter: true,
     needleCircleInner: false,
     animationDuration: 1500,
-    animationRule: "linear"
+	animationRule: "linear",
+	valueInt: 4,
+	valueDec: 0
 }).draw();
 var coolantgauge = new LinearGauge({
     renderTo: 'coolant-id',
@@ -207,7 +209,7 @@ var coolantgauge = new LinearGauge({
     minValue: 40,
     startAngle: 90,
     ticksAngle: 180,
-    valueBox: false,
+    valueBox: true,
     maxValue: 120,
     majorTicks: [
         "40",
@@ -216,7 +218,7 @@ var coolantgauge = new LinearGauge({
         "100",
         "120"
     ],
-    minorTicks: 1,
+    minorTicks: 2,
     strokeTicks: true,
     highlights: [
         {
@@ -235,7 +237,8 @@ var coolantgauge = new LinearGauge({
     needleCircleInner: false,
     animationDuration: 1500,
     animationRule: "linear",
-    barWidth: 10
+    barWidth: 10,
+	valueDec: 0
 }).draw();
 	var speedgauge = new RadialGauge({
 			renderTo: 'speed-id',
@@ -277,18 +280,20 @@ var coolantgauge = new LinearGauge({
 			needleCircleOuter: true,
 			needleCircleInner: false,
 			animationDuration: 1500,
-			animationRule: "linear"
+			animationRule: "linear",
+			valueText: 0,
+			valueInt:3,
+			valueDec: 0
 	}).draw();
 	</script>	
 <script type="text/javascript">
 function LoadMap(){
 map = new google.maps.Map(document.getElementById('bingmap'), {
-	zoom: 5
+	zoom: 12
 			});
 }
 </script>
 <script type="text/javascript">
-var newmarkers = [];
 var marker;
 var map;
 var bounds;
@@ -311,29 +316,19 @@ $(function () {
 });
 
 function SetMarker(data) {
-				//bounds  = new google.maps.LatLngBounds();
-				marker.setMap(null);
+	if (marker != null){
+		marker.setMap(null);
+	}
         //Set Marker on Map.
 				var myLatlng = new google.maps.LatLng(data["LA"], data["LO"]);
-				//var myLatlng = data;
         marker = new google.maps.Marker({
 						position: myLatlng,
 						map: map
 				});
-				//console.log('Pos changed' + data.x + "," + data.y);
 				console.log('Getting new latlng: ' + myLatlng);
 				console.log('Getting position of marker:' + marker.getPosition());
-				//marker.setMap(map);
-				//marker.setPosition(myLatlng);
-				//bounds.extend(myLatlng);
-				//bounds.extend(marker.getPosition());
-				//map.fitBounds(bounds);
-				//map.panToBounds(bounds);  
 				map.panTo(marker.position);
 				map.zoomTo(marker.position);
-				//marker.setMap(map);
-				//map.setZoom(5);
-				//map.setCenter(myLatlng);
     };
 </script>
 </html>
