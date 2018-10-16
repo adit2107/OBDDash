@@ -68,12 +68,13 @@
 	}
 
 	#coolant-id{
-		margin-top: 0px;
+		margin-top: 5px;
 	}
 
 	#rpm-id{
+		text-align: center;
 		margin-top: 30px;
-		margin-right: 20px;
+		margin-left: -40px;
 	}
   </style>
 </head>
@@ -85,7 +86,7 @@
   			</div>
   			<div class="col-sm-12 well">
   				<div class="grid-stack" staticGrid="true">
-  					<div class="grid-stack-item" data-gs-x="8" data-gs-y="0" data-gs-width="4" data-gs-height="3">
+  					<div class="grid-stack-item" data-gs-x="0" data-gs-y="5" data-gs-width="9" data-gs-height="5">
   						<div class="grid-stack-item-content panel panel-primary">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">Engine Load</h3>
@@ -94,7 +95,7 @@
   							</div>
   						</div>
   					</div>
-  					<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="8" data-gs-height="3">
+  					<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="9" data-gs-height="5">
   						<div class="grid-stack-item-content panel panel-primary">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">Car Statistics</h3>
@@ -103,7 +104,7 @@
   							</div>
   						</div>
   					</div>
-  					<div class="grid-stack-item" data-gs-x="0" data-gs-y="6" data-gs-width="4" data-gs-height="3">
+  					<div class="grid-stack-item" data-gs-x="9" data-gs-y="6" data-gs-width="3" data-gs-height="4">
   						<div class="grid-stack-item-content panel panel-primary text-center">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">Coolant Temperature</h3>
@@ -112,16 +113,7 @@
 								</canvas>
   						</div>
   					</div>
-            <div class="grid-stack-item" data-gs-x="0" data-gs-y="3" data-gs-width="4" data-gs-height="3">
-  						<div class="grid-stack-item-content panel panel-primary">
-  							<div class="panel-heading text-center">
-  								<h3 class="panel-title">Throttle Position</h3>
-  							</div>
-  							<div class="panel-body">
-  							</div>
-  						</div>
-  					</div>
-            <div class="grid-stack-item" data-gs-x="8" data-gs-y="3" data-gs-width="4" data-gs-height="3">
+            <div class="grid-stack-item" data-gs-x="9" data-gs-y="3" data-gs-width="3" data-gs-height="3">
   						<div class="grid-stack-item-content panel panel-primary text-center">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">RPM</h3>		
@@ -130,7 +122,7 @@
 								</canvas>
   						</div>
   					</div>
-            <div class="grid-stack-item" data-gs-x="4" data-gs-y="3" data-gs-width="4" data-gs-height="3">
+            <div class="grid-stack-item" data-gs-x="9" data-gs-y="0" data-gs-width="3" data-gs-height="3">
   						<div class="grid-stack-item-content panel panel-primary text-center">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">Speed</h3>
@@ -139,7 +131,7 @@
 								</canvas>
   						</div>
   					</div>
-            <div class="grid-stack-item" data-gs-x="4" data-gs-y="6" data-gs-width="8" data-gs-height="3">
+            <div class="grid-stack-item" data-gs-x="0" data-gs-y="10" data-gs-width="12" data-gs-height="4">
   						<div class="grid-stack-item-content panel panel-primary">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">GPS Co-ordinates</h3>
@@ -204,7 +196,7 @@ var rpmgauge = new RadialGauge({
 var coolantgauge = new LinearGauge({
     renderTo: 'coolant-id',
     width: 100,
-    height: 190,
+    height: 250,
     units: "°C",
     minValue: 20,
     startAngle: 90,
@@ -290,14 +282,16 @@ var coolantgauge = new LinearGauge({
 <script type="text/javascript">
 function LoadMap(){
 map = new google.maps.Map(document.getElementById('bingmap'), {
-	zoom: 12
+	zoom: 20
 			});
 }
+
 </script>
 <script type="text/javascript">
 var marker;
 var map;
 var bounds;
+
 
 var socket = io.connect('http://localhost:3001');
 
@@ -306,7 +300,7 @@ $("#data-receive").append("," + data["RPM"]);
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
-//SetMarker(data);
+SetMarker(data);
 });
 
 var options = {
@@ -317,6 +311,19 @@ $(function () {
 });
 
 function SetMarker(data) {
+// 	var carimage = {
+//   url: '/icons/car-top.svg',
+//   size: new google.maps.Size(50, 80),
+//   origin: new google.maps.Point(0, 0),
+//   anchor: new google.maps.Point(0, 0),
+//   scaledSize: new google.maps.Size(50, 80),
+//   rotation: 45
+// };
+var carimage = {
+	path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+	scale: 5,
+	rotation: data["Heading"]
+};
 	if (marker != null){
 		marker.setMap(null);
 	}
@@ -324,7 +331,8 @@ function SetMarker(data) {
 				var myLatlng = new google.maps.LatLng(data["LA"], data["LO"]);
         marker = new google.maps.Marker({
 						position: myLatlng,
-						map: map
+						map: map,
+						icon: carimage
 				});
 				console.log('Getting new latlng: ' + myLatlng);
 				console.log('Getting position of marker:' + marker.getPosition());
