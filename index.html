@@ -296,7 +296,7 @@ var bounds;
 var socket = io.connect('http://localhost:3001');
 
 socket.on('cardata', function(data){
-$("#data-receive").append("," + data["RPM"]);
+//$("#data-receive").append("," + data["RPM"]);
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
@@ -311,16 +311,8 @@ $(function () {
 });
 
 function SetMarker(data) {
-// 	var carimage = {
-//   url: '/icons/car-top.svg',
-//   size: new google.maps.Size(50, 80),
-//   origin: new google.maps.Point(0, 0),
-//   anchor: new google.maps.Point(0, 0),
-//   scaledSize: new google.maps.Size(50, 80),
-//   rotation: 45
-// };
 var carimage = {
-	path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+	path: google.maps.SymbolPath.CIRCLE,
 	scale: 5,
 	rotation: data["Heading"]
 };
