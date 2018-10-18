@@ -233,7 +233,7 @@ var coolantgauge = new LinearGauge({
     barWidth: 10,
 	valueDec: 0
 }).draw();
-	var speedgauge = new RadialGauge({
+var speedgauge = new RadialGauge({
 			renderTo: 'speed-id',
 			width: 190,
 			height: 190,
@@ -283,7 +283,7 @@ var coolantgauge = new LinearGauge({
 function LoadMap(){
 map = new google.maps.Map(document.getElementById('bingmap'), {
 	zoom: 20
-			});
+	});
 }
 
 </script>
@@ -300,7 +300,7 @@ socket.on('cardata', function(data){
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
-SetMarker(data);
+//SetMarker(data);
 });
 
 var options = {

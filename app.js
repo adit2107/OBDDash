@@ -35,7 +35,7 @@ io.on('connection', function(socket){
     var datarec = JSON.stringify(message.body);
     var datajson = JSON.parse(datarec);
     console.log(datajson);
-    socket.emit('cardata', datajson);  
+    socket.emit('cardata', datajson);
   };
 
 });
