@@ -12,8 +12,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.0/lodash.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.all.js"></script>
-  <script type="text/javascript" src="http://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-	<script type="text/javascript">
+	<script type="text/javascript" src="http://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+<script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.5/all/gauge.min.js"></script> 	
+<script type="text/javascript">
 	const dataSource = {
   "chart": {
     "lowerlimit": "20",
@@ -61,6 +62,20 @@
 		height: 100%;
 		width: 100%;
 	}
+
+	#speed-id{ 
+		margin-top: 5px;
+	}
+
+	#coolant-id{
+		margin-top: 5px;
+	}
+
+	#rpm-id{
+		text-align: center;
+		margin-top: 30px;
+		margin-left: -40px;
+	}
   </style>
 </head>
 <body>
@@ -71,7 +86,7 @@
   			</div>
   			<div class="col-sm-12 well">
   				<div class="grid-stack" staticGrid="true">
-  					<div class="grid-stack-item" data-gs-x="8" data-gs-y="0" data-gs-width="4" data-gs-height="4">
+  					<div class="grid-stack-item" data-gs-x="0" data-gs-y="5" data-gs-width="9" data-gs-height="5">
   						<div class="grid-stack-item-content panel panel-primary">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">Engine Load</h3>
@@ -80,7 +95,7 @@
   							</div>
   						</div>
   					</div>
-  					<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="8" data-gs-height="4">
+  					<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="9" data-gs-height="5">
   						<div class="grid-stack-item-content panel panel-primary">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">Car Statistics</h3>
@@ -89,43 +104,34 @@
   							</div>
   						</div>
   					</div>
-  					<div class="grid-stack-item" data-gs-x="3" data-gs-y="4" data-gs-width="3" data-gs-height="2">
-  						<div class="grid-stack-item-content panel panel-primary">
+  					<div class="grid-stack-item" data-gs-x="9" data-gs-y="6" data-gs-width="3" data-gs-height="4">
+  						<div class="grid-stack-item-content panel panel-primary text-center">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">Coolant Temperature</h3>
   							</div>
-  							<div id="chart-container">
-  							</div>
+  							<canvas id="coolant-id">
+								</canvas>
   						</div>
   					</div>
-            <div class="grid-stack-item" data-gs-x="3" data-gs-y="6" data-gs-width="3" data-gs-height="2">
-  						<div class="grid-stack-item-content panel panel-primary">
+            <div class="grid-stack-item" data-gs-x="9" data-gs-y="3" data-gs-width="3" data-gs-height="3">
+  						<div class="grid-stack-item-content panel panel-primary text-center">
   							<div class="panel-heading text-center">
-  								<h3 class="panel-title">Throttle Position</h3>
+  								<h3 class="panel-title">RPM</h3>		
   							</div>
-  							<div class="panel-body">
-  							</div>
+  							<canvas id="rpm-id">
+								</canvas>
   						</div>
   					</div>
-            <div class="grid-stack-item" data-gs-x="0" data-gs-y="4" data-gs-width="3" data-gs-height="2">
-  						<div class="grid-stack-item-content panel panel-primary">
+            <div class="grid-stack-item" data-gs-x="9" data-gs-y="0" data-gs-width="3" data-gs-height="3">
+  						<div class="grid-stack-item-content panel panel-primary text-center">
   							<div class="panel-heading text-center">
-  								<h3 class="panel-title">Panel</h3>
+  								<h3 class="panel-title">Speed</h3>
   							</div>
-  							<div id="rpmdiv" class="panel-body">
-  							</div>
+  							<canvas id="speed-id">
+								</canvas>
   						</div>
   					</div>
-            <div class="grid-stack-item" data-gs-x="0" data-gs-y="6" data-gs-width="3" data-gs-height="2">
-  						<div class="grid-stack-item-content panel panel-primary">
-  							<div class="panel-heading text-center">
-  								<h3 class="panel-title">Panel</h3>
-  							</div>
-  							<div id="speeddiv" class="panel-body">
-  							</div>
-  						</div>
-  					</div>
-            <div class="grid-stack-item" data-gs-x="6" data-gs-y="4" data-gs-width="6" data-gs-height="4">
+            <div class="grid-stack-item" data-gs-x="0" data-gs-y="10" data-gs-width="12" data-gs-height="4">
   						<div class="grid-stack-item-content panel panel-primary">
   							<div class="panel-heading text-center">
   								<h3 class="panel-title">GPS Co-ordinates</h3>
@@ -138,97 +144,163 @@
   	</div>
   </div>
 </div>
+<div id="data-receive">
+
+</div>
 </body>
 <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&callback=LoadMap" async defer></script>
 <script type="text/javascript">
+var rpmgauge = new RadialGauge({
+    renderTo: 'rpm-id',
+    width: 350,
+    height: 200,
+    units: "RPM x1000",
+    minValue: 0,
+    startAngle: 90,
+    ticksAngle: 180,
+    valueBox: false,
+    maxValue: 8000,
+    majorTicks: [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+    ],
+    minorTicks: 10,
+    strokeTicks: true,
+    highlights: [
+        {
+            "from": 160,
+            "to": 220,
+            "color": "rgba(200, 50, 50, .75)"
+        }
+    ],
+    colorPlate: "#fff",
+    borderShadowWidth: 0,
+    borders: false,
+    needleType: "arrow",
+    needleWidth: 2,
+    needleCircleSize: 7,
+    needleCircleOuter: true,
+    needleCircleInner: false,
+    animationDuration: 1500,
+	animationRule: "linear",
+	valueInt: 4,
+	valueDec: 0
+}).draw();
+var coolantgauge = new LinearGauge({
+    renderTo: 'coolant-id',
+    width: 100,
+    height: 250,
+    units: "°C",
+    minValue: 20,
+    startAngle: 90,
+    ticksAngle: 180,
+    valueBox: true,
+    maxValue: 120,
+    majorTicks: [
+		"20",
+        "40",
+        "60",
+        "80",
+        "100",
+        "120"
+    ],
+    minorTicks: 2,
+    strokeTicks: true,
+    highlights: [
+        {
+            "from": 100,
+            "to": 120,
+            "color": "rgba(200, 50, 50, .75)"
+        }
+    ],
+    colorPlate: "#fff",
+    borderShadowWidth: 0,
+    borders: false,
+    needleType: "arrow",
+    needleWidth: 2,
+    needleCircleSize: 7,
+    needleCircleOuter: true,
+    needleCircleInner: false,
+    animationDuration: 1500,
+    animationRule: "linear",
+    barWidth: 10,
+	valueDec: 0
+}).draw();
+var speedgauge = new RadialGauge({
+			renderTo: 'speed-id',
+			width: 190,
+			height: 190,
+			units: "Km/h",
+			minValue: 0,
+			valueBox: false,
+			maxValue: 220,
+			majorTicks: [
+					"0",
+					"20",
+					"40",
+					"60",
+					"80",
+					"100",
+					"120",
+					"140",
+					"160",
+					"180",
+					"200",
+					"220"
+			],
+			minorTicks: 2,
+			strokeTicks: true,
+			highlights: [
+					{
+							"from": 160,
+							"to": 220,
+							"color": "rgba(200, 50, 50, .75)"
+					}
+			],
+			colorPlate: "#fff",
+			borderShadowWidth: 0,
+			borders: false,
+			needleType: "arrow",
+			needleWidth: 2,
+			needleCircleSize: 7,
+			needleCircleOuter: true,
+			needleCircleInner: false,
+			animationDuration: 1500,
+			animationRule: "linear",
+			valueText: 0,
+			valueInt:3,
+			valueDec: 0
+	}).draw();
+	</script>	
+<script type="text/javascript">
 function LoadMap(){
 map = new google.maps.Map(document.getElementById('bingmap'), {
-	zoom: 5
-      });
+	zoom: 20
+	});
 }
+
 </script>
 <script type="text/javascript">
-// window.onload = function () {
-//         LoadMap();
-// 		};
-var newmarkers = [];
 var marker;
 var map;
 var bounds;
 
+
 var socket = io.connect('http://localhost:3001');
-socket.on('speed', function(data){
-  //alert(data["speed"]);
-});
-socket.on('coolant', function(data){
-	 //alert(data["coolant"]);
-	 //dataSource["value"] == data["coolant"];
-	//  FusionCharts.ready(function() {
-	// 	 var updateAnnotation;
-  //  var myChart = new FusionCharts({
-	// 		type: "thermometer",
-  //     renderAt: "chart-container",
-  //     width: "213px",
-  //     height: "110px",
-  //     dataFormat: "json",
-	// 		dataSource,
-	// 		"events": {
-  //       "initialized": function(evt, arg) {
-  //         var dataUpdate = setInterval(function() {
-  //           var value,
-  //             prevTemp = FusionCharts.items["myThm"].getData()
 
-  //           FusionCharts.items["myThm"].feedData("&value=" + value);
-
-  //         }, 3000);
-  //         updateAnnotation = function(evtObj, argObj) {
-  //           var code,
-  //             chartObj = evtObj.sender,
-  //             val = chartObj.getData(),
-  //             annotations = chartObj.annotations;
-
-  //           if (val >= 30) {
-  //             code = "#00FF00";
-  //           } else if (val < 30 && val > 40) {
-  //             code = "#ff9900";
-  //           } else {
-  //             code = "#ff0000";
-  //           }
-  //           annotations.update("background", {
-  //             "fillColor": code
-  //           });
-  //         };
-  //       },
-  //       "renderComplete": function(evt, arg) {
-  //         updateAnnotation(evt, arg);
-  //       },
-  //       "realtimeUpdateComplete": function(evt, arg) {
-  //         updateAnnotation(evt, arg);
-  //       }
-  //     }
-  //  }).render();
-// });
-});
-socket.on('rpm', function(data){
-  // alert(data["rpm"]);
-});
-socket.on('engine', function(data){
-  // alert(data["engine"]);
-});
-socket.on('tp', function(data){
-  // alert(data["tp"]);
-});
-socket.on('coord', function(data){
-	//alert(data.x, data.y);
-	//initMap(data);
-	// console.log("Incoming coords: " + data.x + data.y);
-	// newmarkers.push({lat: data.x, lng: data.y});
-	// console.log("Newest coord" + newmarkers[newmarkers.length-1].lat + "," + newmarkers[newmarkers.length-1].lng);
-	// setInterval(function(){
-	// 	SetMarker(newmarkers[newmarkers.length-1]);
-	// }, 2000);
-	// console.log(newmarkers.length);
-	SetMarker(data);
+socket.on('cardata', function(data){
+//$("#data-receive").append("," + data["RPM"]);
+speedgauge.value = data["Speed"];
+rpmgauge.value = data["RPM"];
+coolantgauge.value = data["Coolant_temp"];
+//SetMarker(data);
 });
 
 var options = {
@@ -239,30 +311,25 @@ $(function () {
 });
 
 function SetMarker(data) {
-				//bounds  = new google.maps.LatLngBounds();
-				//marker.setMap(null);
+var carimage = {
+	path: google.maps.SymbolPath.CIRCLE,
+	scale: 5,
+	rotation: data["Heading"]
+};
+	if (marker != null){
+		marker.setMap(null);
+	}
         //Set Marker on Map.
-				var myLatlng = new google.maps.LatLng(data.x, data.y);
-				//var myLatlng = data;
+				var myLatlng = new google.maps.LatLng(data["LA"], data["LO"]);
         marker = new google.maps.Marker({
 						position: myLatlng,
-						map: map
+						map: map,
+						icon: carimage
 				});
-				//console.log('Pos changed' + data.x + "," + data.y);
 				console.log('Getting new latlng: ' + myLatlng);
 				console.log('Getting position of marker:' + marker.getPosition());
-				//marker.setMap(map);
-				//marker.setPosition(myLatlng);
-				//bounds.extend(myLatlng);
-				//bounds.extend(marker.getPosition());
-				//map.fitBounds(bounds);
-				//map.panToBounds(bounds);  
 				map.panTo(marker.position);
-				//marker.setMap(map);
-				//map.setZoom(5);
-				//map.setCenter(myLatlng);
+				map.zoomTo(marker.position);
     };
-
-
 </script>
 </html>
