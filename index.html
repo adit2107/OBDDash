@@ -285,7 +285,6 @@ var bounds;
 var socket = io.connect('http://localhost:3001');
 
 socket.on('cardata', function(data){
-//$("#data-receive").append("," + data["RPM"]);
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
@@ -315,6 +314,28 @@ if (data["Speed"] == 0){
 
 if (data["Ax"] > 80){
 	
+}
+
+if (data["Engine_load"] == 0){
+	$('.car-gradient .car-gradient2').removeClass('active');
+    $('.car-gradient .car-gradient3').removeClass('active');
+    $('.car-gradient .car-gradient4').removeClass('active');
+    $('.car-gradient .car-gradient1').addClass('active');
+} else if(data["Engine_load"] > 0 && data["Engine_load"] <= 40){
+	$('.car-gradient .car-gradient1').removeClass('active');
+    $('.car-gradient .car-gradient3').removeClass('active');
+    $('.car-gradient .car-gradient4').removeClass('active');
+    $('.car-gradient .car-gradient2').addClass('active');
+} else if(data["Engine_load"] > 40 && data["Engine_load"] < 70){
+	$('.car-gradient .car-gradient1').removeClass('active');
+    $('.car-gradient .car-gradient3').removeClass('active');
+    $('.car-gradient .car-gradient2').removeClass('active');
+    $('.car-gradient .car-gradient3').addClass('active');
+} else if(data["Engine_load"] > 70){
+	$('.car-gradient .car-gradient1').removeClass('active');
+    $('.car-gradient .car-gradient3').removeClass('active');
+    $('.car-gradient .car-gradient2').removeClass('active');
+    $('.car-gradient .car-gradient4').addClass('active');
 }
 
 });
