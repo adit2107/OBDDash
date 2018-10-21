@@ -1,42 +1,57 @@
-var $ = jQuery.noConflict();
-
-/* Script on ready
-------------------------------------------------------------------------------*/
 $(document).ready(function(){
-    //TweenMax.to(".car-wheel1",100, {rotation:360});
-    TweenMax.to('.car-wheel1', 2, {rotation:360, repeat:1000, ease: Power0.easeNone});
-    TweenMax.to('.car-wheel2', 2, {rotation:360, repeat:1000, ease: Power0.easeNone});
-    TweenMax.to('.car-wheel1', 3, {rotation:1440, repeat:1000, ease: Power0.easeNone, delay: 5});
-    TweenMax.to('.car-wheel2', 3, {rotation:1440, repeat:1000, ease: Power0.easeNone, delay: 5});
-    TweenMax.to('.car-wheel1', 3, {rotation:0, repeat:0, ease: Power0.easeNone, delay: 10});
-    TweenMax.to('.car-wheel2', 3, {rotation:0, repeat:0, ease: Power0.easeNone, delay: 10});
-    TweenMax.to('.car-body', 0.5, {y:-5,x:2,rotation: 1, delay: 13});
-    TweenMax.to('.car-body', 0.5, {y:0,x:0,rotation: 0, delay: 13.5});
-    TweenMax.to('.second-wheel', 0.5, {rotationY:30, rotationX:11,ease: Power0.easeNone,});
-    TweenMax.to('.second-wheel2', 0.5, {rotationY:30, rotationX:11,ease: Power0.easeNone,});
-    
-    TweenMax.to('.second-wheel', 0.5, {rotationY:0, rotationX:0,ease: Power0.easeNone, delay: 1});
-    TweenMax.to('.second-wheel2', 0.5, {rotationY:0, rotationX:0,ease: Power0.easeNone, delay: 1});
+    // setTimeout(function(){
+    //     $('.car-body').addClass('slow-speed');
+    //     $('.car-gradient .car-gradient1').addClass('active');
+    // },1000)    
+    // setTimeout(function(){
+    //     slow_speed();
+    // },3000)    
+    // $('.car-2-inner').addClass('left-side-wheel-move');
 
-});
+})
 
-/* Script on load
-------------------------------------------------------------------------------*/
-$(window).load(function() {
-    // page is fully loaded, including all frames, objects and images
-});
+function slow_speed(){
+    $('.car-body').removeClass('slow-speed');
+    $('.car-body').addClass('medium-speed');
+    $('.car-gradient .car-gradient1').removeClass('active');
+    $('.car-gradient .car-gradient3').removeClass('active');
+    $('.car-gradient .car-gradient4').removeClass('active');
+    $('.car-gradient .car-gradient2').addClass('active');
+    setTimeout(function(){
+        medium_speed();
+    },6000)
+}
 
-/* Script on scroll
-------------------------------------------------------------------------------*/
-$(window).scroll(function() {
-
-});
-
-/* Script on resize
-------------------------------------------------------------------------------*/
-$(window).resize(function() {
-
-});
-
-/* Script all functions
-------------------------------------------------------------------------------*/
+function medium_speed(){
+    $('.car-body').removeClass('medium-speed');
+    $('.car-body').addClass('fast-speed');   
+    $('.car-gradient .car-gradient1').removeClass('active');
+    $('.car-gradient .car-gradient2').removeClass('active');
+    $('.car-gradient .car-gradient4').removeClass('active');
+    $('.car-gradient .car-gradient3').addClass('active');
+    setTimeout(function(){
+        fast_speed();
+    },10000)
+}
+function fast_speed(){
+    $('.car-body').removeClass('fast-speed');
+    $('.car-body').addClass('full-stop');
+    $('.car-gradient .car-gradient1').removeClass('active');
+    $('.car-gradient .car-gradient2').removeClass('active');
+    $('.car-gradient .car-gradient3').removeClass('active');
+    $('.car-gradient .car-gradient4').addClass('active');
+    setTimeout(function(){
+        stop_speed();
+    },14000)
+}
+function stop_speed(){
+    $('.car-body').removeClass('full-stop');
+    $('.car-body').addClass('slow-speed');
+    setTimeout(function(){
+        slow_speed();
+        $('.car-gradient .car-gradient2').removeClass('active');
+        $('.car-gradient .car-gradient3').removeClass('active');
+        $('.car-gradient .car-gradient4').removeClass('active');
+        $('.car-gradient .car-gradient1').addClass('active');
+    },500)  
+}

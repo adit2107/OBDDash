@@ -4,55 +4,16 @@
   <meta charset="utf-8">
   <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!-- <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AjkXX1zT7YHy-_LtxMnidsm-asX1f__I79nFe4BBo2ELOe233gyXIRQnNDK9I1_I&callback=loadMapScenario' async defer></script> -->
-	<!-- <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&callback=LoadMap" async defer></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 	<link rel="stylesheet" href="https://bootswatch.com/3/paper/bootstrap.css">
+	<link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.0/jquery-ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.0/lodash.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.all.js"></script>
-	<script type="text/javascript" src="http://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
 <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.5/all/gauge.min.js"></script> 	
-<script type="text/javascript">
-	const dataSource = {
-  "chart": {
-    "lowerlimit": "20",
-    "upperlimit": "100",
-    "numbersuffix": "°C",
-    "thmfillcolor": "#008ee4",
-    "showgaugeborder": "1",
-    "gaugebordercolor": "#008ee4",
-    "gaugeborderthickness": "2",
-    "plottooltext": "Temperature: <b>$datavalue</b> ",
-    "theme": "fusion",
-    "showvalue": "1"
-  },
-	"value": "20",
-	"annotations": {
-          "showbelow": "0",
-          "groups": [{
-            //Each group needs a unique ID
-            "id": "indicator",
-            "items": [
-              //Showing Annotation
-              {
-                "id": "background",
-                //Rectangle item 
-                "type": "rectangle",
-                "alpha": "50",
-                "fillColor": "#AABBCC",
-                "x": "$gaugeEndX-40",
-                "tox": "$gaugeEndX",
-                "y": "$gaugeEndY+54",
-                "toy": "$gaugeEndY+72"
-              }
-            ]
-          }]
+<script type="text/javascript" src="js/scripts.js"></script>
 
-        }
-};
-	</script>
   <style>
   .grid-stack > .grid-stack-item > .grid-stack-item-content{
     overflow-y: hidden;
@@ -92,6 +53,21 @@
   								<h3 class="panel-title">Engine Load</h3>
   							</div>
   							<div class="panel-body">
+									<div class="second-car-cover">
+											<div class="car-2-cover">
+												<div class="car-2-inner">
+													<img src="images/car2-body.png" alt="" class="car2-body">
+													<div class="car2-wheel-1"><img src="images/car2-wheel-left.png" alt=""></div>
+													<div class="car2-wheel-2"><img src="images/car2-wheel-right.png" alt=""></div>
+													<div class="car-gradient">
+														<img src="images/engine-part.png" alt="" class="car-gradient1">
+														<img src="images/engine-part2.png" alt="" class="car-gradient2">
+														<img src="images/engine-part3.png" alt="" class="car-gradient3">
+														<img src="images/engine-part4.png" alt="" class="car-gradient4">
+													</div>
+												</div>
+											</div>
+										</div>
   							</div>
   						</div>
   					</div>
@@ -101,6 +77,20 @@
   								<h3 class="panel-title">Car Statistics</h3>
   							</div>
   							<div class="panel-body">
+								<div class="car-control" style="display: none;">
+									<a href="javascript:;" class="a-slow-speed"></a>
+									<a href="javascript:;" class="a-medium-speed"></a>
+									<a href="javascript:;" class="a-fast-speed"></a>
+									<a href="javascript:;" class="a-stop-speed"></a>
+								</div>
+								<div class="car-cover">
+									<div class="car-body">
+										<img src="images/car-body.png" alt="" class="main-car-body">
+										<div class="wheel1"><img src="images/wheel.png" alt=""></div>
+										<div class="wheel2"><img src="images/wheel.png" alt=""></div>
+										<div class="accident-animation"><img src="images/accident-animation.png" alt=""></div>
+									</div>
+								</div>
   							</div>
   						</div>
   					</div>
@@ -292,7 +282,6 @@ var marker;
 var map;
 var bounds;
 
-
 var socket = io.connect('http://localhost:3001');
 
 socket.on('cardata', function(data){
@@ -301,6 +290,33 @@ speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
 //SetMarker(data);
+
+if (data["Speed"] == 0){
+	$('.car-body').removeClass('slow-speed');
+    $('.car-body').removeClass('medium-speed');
+    $('.car-body').removeClass('fast-speed');
+	$('.car-body').addClass('stop-speed');
+} else if(data["Speed"] >=0 && data["Speed"] <= 30){
+	$('.car-body').removeClass('stop-speed');
+    $('.car-body').removeClass('medium-speed');
+    $('.car-body').removeClass('fast-speed');
+	$('.car-body').addClass('slow-speed');
+} else if(data["Speed"] >30 && data["Speed"] <= 50){
+	$('.car-body').removeClass('stop-speed');
+    $('.car-body').removeClass('slow-speed');
+    $('.car-body').removeClass('fast-speed');
+	$('.car-body').addClass('medium-speed');
+} else if(data["Speed"] >50){
+	$('.car-body').removeClass('stop-speed');
+    $('.car-body').removeClass('slow-speed');
+    $('.car-body').removeClass('medium-speed');
+	$('.car-body').addClass('fast-speed');
+}
+
+if (data["Ax"] > 80){
+	
+}
+
 });
 
 var options = {
