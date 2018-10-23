@@ -12,7 +12,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.0/lodash.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.4.0/gridstack.all.js"></script>
 <script src="//cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.5/all/gauge.min.js"></script> 	
-<script type="text/javascript" src="js/scripts.js"></script>
+<script type="text/javascript" src="js/scripts1.js"></script>
 
   <style>
   .grid-stack > .grid-stack-item > .grid-stack-item-content{
@@ -288,24 +288,26 @@ socket.on('cardata', function(data){
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
-//SetMarker(data);
+SetMarker(data);
 
-if (data["Speed"] == 0){
+if (data["Speed"] == 0.0){
 	$('.car-body').removeClass('slow-speed');
     $('.car-body').removeClass('medium-speed');
     $('.car-body').removeClass('fast-speed');
 	$('.car-body').addClass('stop-speed');
-} else if(data["Speed"] >=0 && data["Speed"] <= 30){
+
+} else if(data["Speed"] >=0.0 && data["Speed"] <= 30.0){
 	$('.car-body').removeClass('stop-speed');
     $('.car-body').removeClass('medium-speed');
     $('.car-body').removeClass('fast-speed');
 	$('.car-body').addClass('slow-speed');
-} else if(data["Speed"] >30 && data["Speed"] <= 50){
+} else if(data["Speed"] >30.0 && data["Speed"] <= 50.0){
 	$('.car-body').removeClass('stop-speed');
     $('.car-body').removeClass('slow-speed');
     $('.car-body').removeClass('fast-speed');
 	$('.car-body').addClass('medium-speed');
-} else if(data["Speed"] >50){
+	
+} else if(data["Speed"] >50.0){
 	$('.car-body').removeClass('stop-speed');
     $('.car-body').removeClass('slow-speed');
     $('.car-body').removeClass('medium-speed');
@@ -316,28 +318,34 @@ if (data["Ax"] > 80){
 	
 }
 
-if (data["Engine_load"] == 0){
+if (data["Engine"] == 0){
 	$('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient4').removeClass('active');
     $('.car-gradient .car-gradient1').addClass('active');
-} else if(data["Engine_load"] > 0 && data["Engine_load"] <= 40){
+} else if(data["Engine"] > 0 && data["Engine"] <= 40){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient4').removeClass('active');
     $('.car-gradient .car-gradient2').addClass('active');
-} else if(data["Engine_load"] > 40 && data["Engine_load"] < 70){
+} else if(data["Engine"] > 40 && data["Engine"] < 70){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient3').addClass('active');
-} else if(data["Engine_load"] > 70){
+} else if(data["Engine"] > 70){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient4').addClass('active');
 }
 
+// CAR TURNING
+if (data["Ax"]){
+	$('.car-2-inner').addClass('left-side-wheel-move');
+	$('.car-2-inner').addClass('right-side-wheel-move');
+	$('.car-2-inner').addClass('stop-side-wheel-move');
+}
 });
 
 var options = {
@@ -366,7 +374,7 @@ var carimage = {
 				console.log('Getting new latlng: ' + myLatlng);
 				console.log('Getting position of marker:' + marker.getPosition());
 				map.panTo(marker.position);
-				map.zoomTo(marker.position);
+				//map.zoomTo(marker.position);
     };
 </script>
 </html>

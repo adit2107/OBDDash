@@ -175,23 +175,71 @@ img{max-width: 100%;}
 }
 
 /* car second */
-.car-2-inner.left-side-wheel-move .car2-wheel-1{
-    animation: wheel-left 6s infinite;
+.car-2-inner.right-side-wheel-move .car2-wheel-1{
+    animation: wheel-right 6s forwards;
 }
-.car-2-inner.left-side-wheel-move .car2-wheel-2{
-    animation: wheel-left 6s infinite;
+.car-2-inner.right-side-wheel-move .car2-wheel-2{
+    animation: wheel-right 6s forwards;
 }
 
+.car-2-inner.left-side-wheel-move .car2-wheel-1{
+    animation: wheel-left 6s forwards;
+}
+.car-2-inner.left-side-wheel-move .car2-wheel-2{
+    animation: wheel-left 6s forwards;
+}
+
+.car-2-inner.stop-side-wheel-move .car2-wheel-1{
+    animation: wheel-stop 6s forwards;
+}
+.car-2-inner.stop-side-wheel-move .car2-wheel-2{
+    animation: wheel-stop 6s forwards;
+}
+
+
 @keyframes wheel-left{
-    0%,50%,100%{
+    /* 0%,50%,100%{
         transform: rotate(0);
-    }
-    25%{
+    } */
+    to{
         transform: rotate(12deg);
     }
-    75%{
-        transform: rotate(-12deg);        
+    from{
+        transform: rotate(12deg);
     }
+    /* 75%{
+        transform: rotate(-12deg);        
+    } */
+}
+
+@keyframes wheel-right{
+    /* 0%,50%,100%{
+        transform: rotate(0);
+    } */
+    to{
+        transform: rotate(-12deg);
+    }
+    from{
+        transform: rotate(-12deg);
+    }
+    /* 75%{
+        transform: rotate(-12deg);        
+    } */
+}
+
+@keyframes wheel-stop{
+    /* 0%,50%,100%{
+        transform: rotate(0);
+    } */
+    to{
+        transform: rotate(0);
+    }
+    from{
+        transform: rotate(0);
+    }
+    /* 75%{
+        transform: rotate(-12deg);        
+    } */
 }
 
 .car-gradient {
