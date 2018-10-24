@@ -320,12 +320,7 @@ if (data["Ax"] > 80){
 	
 }
 
-if (data["Engine"] >= 0.0 && data["Engine"] <= 20.0){
-	// $('.car-gradient .car-gradient2').removeClass('active');
-    // $('.car-gradient .car-gradient3').removeClass('active');
-    // $('.car-gradient .car-gradient4').removeClass('active');
-    $('.car-gradient .car-gradient1').addClass('active');
-} else if(data["Engine"] > 20.0 && data["Engine"] <= 35.0){
+if(data["Engine"] >= 0.0 && data["Engine"] <= 35.0){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient4').removeClass('active');
