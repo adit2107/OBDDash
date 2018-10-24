@@ -281,10 +281,12 @@ map = new google.maps.Map(document.getElementById('bingmap'), {
 var marker;
 var map;
 var bounds;
+var inithead;
 
 var socket = io.connect('http://localhost:3001');
 
 socket.on('cardata', function(data){
+	$("#data-receive").append(data["Engine"]);
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
@@ -296,7 +298,7 @@ if (data["Speed"] == 0.0){
     $('.car-body').removeClass('fast-speed');
 	$('.car-body').addClass('stop-speed');
 
-} else if(data["Speed"] >=0.0 && data["Speed"] <= 30.0){
+} else if(data["Speed"] >0.0 && data["Speed"] <= 30.0){
 	$('.car-body').removeClass('stop-speed');
     $('.car-body').removeClass('medium-speed');
     $('.car-body').removeClass('fast-speed');
@@ -318,27 +320,28 @@ if (data["Ax"] > 80){
 	
 }
 
-if (data["Engine"] == 0){
-	$('.car-gradient .car-gradient2').removeClass('active');
-    $('.car-gradient .car-gradient3').removeClass('active');
-    $('.car-gradient .car-gradient4').removeClass('active');
+if (data["Engine"] >= 0.0 && data["Engine"] <= 20.0){
+	// $('.car-gradient .car-gradient2').removeClass('active');
+    // $('.car-gradient .car-gradient3').removeClass('active');
+    // $('.car-gradient .car-gradient4').removeClass('active');
     $('.car-gradient .car-gradient1').addClass('active');
-} else if(data["Engine"] > 0 && data["Engine"] <= 40){
+} else if(data["Engine"] > 20.0 && data["Engine"] <= 35.0){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient4').removeClass('active');
     $('.car-gradient .car-gradient2').addClass('active');
-} else if(data["Engine"] > 40 && data["Engine"] < 70){
+} else if(data["Engine"] > 35.0 && data["Engine"] < 45.0){
 	$('.car-gradient .car-gradient1').removeClass('active');
-    $('.car-gradient .car-gradient3').removeClass('active');
+    $('.car-gradient .car-gradient4').removeClass('active');
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient3').addClass('active');
-} else if(data["Engine"] > 70){
+} else if(data["Engine"] > 45.0){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient4').addClass('active');
 }
+
 
 // CAR TURNING
 if (data["Ax"]){
@@ -346,6 +349,20 @@ if (data["Ax"]){
 	$('.car-2-inner').addClass('right-side-wheel-move');
 	$('.car-2-inner').addClass('stop-side-wheel-move');
 }
+
+inithead = data["Heading"];
+
+function checkHeading(inithead){
+	if(inithead + 20){
+	$('.car-2-inner').addClass('left-side-wheel-move');
+}else if(inithead - 20){
+	$('.car-2-inner').addClass('right-side-wheel-move');
+}else {
+	$('.car-2-inner').addClass('stop-side-wheel-move');
+}
+}
+
+setInterval(checkHeading, 4000);
 });
 
 var options = {

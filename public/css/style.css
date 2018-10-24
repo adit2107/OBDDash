@@ -242,7 +242,7 @@ img{max-width: 100%;}
     } */
 }
 
-.car-gradient {
+/* .car-gradient {
     position: absolute;
     left: 0;
     bottom: 32%;
@@ -259,5 +259,80 @@ img{max-width: 100%;}
 }
 .car-gradient img.car-gradient3.active{
     display: inline-block;
+} */
+
+.car-gradient {
+    position: absolute;
+    left: 0;
+    bottom: 32%;
+    right: 8px;
+    height: 147px;
 }
+.car-gradient img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 1;
+}
+.car-gradient img.car-gradient1.active{
+    animation: animate-01 1s linear;
+    z-index: 1;
+}
+.car-gradient img.car-gradient2.active{
+    animation: animate-02 1s linear;
+    z-index: 2;
+}
+.car-gradient img.car-gradient3.active{
+    animation: animate-03 1s linear;
+    z-index: 3;
+}
+.car-gradient img.car-gradient4.active{
+    animation: animate-04 1s linear;
+    z-index: 4;
+}
+
+@keyframes animate-01{
+    0%{
+        visibility: hidden;
+        opacity: 0;
+    }
+    100%{
+        visibility: visible;
+        opacity: 1;
+    }
+}
+@keyframes animate-02{
+    0%{
+        visibility: hidden;
+        opacity: 0;
+    }
+    40%,100%{
+        visibility: visible;
+        opacity: 1;
+    }
+}
+@keyframes animate-03{
+    0%{
+        visibility: hidden;
+        opacity: 0;
+    }
+    20%,100%{
+        visibility: visible;
+        opacity: 1;
+    }
+}
+@keyframes animate-04{
+    0%{
+        visibility: hidden;
+        opacity: 0;
+    }
+    20%,100%{
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+
 
