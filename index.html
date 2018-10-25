@@ -138,7 +138,7 @@
 
 </div>
 </body>
-<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&callback=LoadMap" async defer></script>
+<script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&libraries=geometry&callback=LoadMap" async defer></script>
 <script type="text/javascript">
 var rpmgauge = new RadialGauge({
     renderTo: 'rpm-id',
@@ -286,12 +286,14 @@ var inithead;
 var socket = io.connect('http://localhost:3001');
 
 socket.on('cardata', function(data){
-	$("#data-receive").append(data["Engine"]);
+	$("#data-receive").append(data["Heading"]);
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
 SetMarker(data);
+setInterval(calcheading(data), 6000);
 
+// Car Speed Animations
 if (data["Speed"] == 0.0){
 	$('.car-body').removeClass('slow-speed');
     $('.car-body').removeClass('medium-speed');
@@ -316,10 +318,7 @@ if (data["Speed"] == 0.0){
 	$('.car-body').addClass('fast-speed');
 }
 
-if (data["Ax"] > 80){
-	
-}
-
+// Engine Load Animations
 if(data["Engine"] >= 0.0 && data["Engine"] <= 35.0){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
@@ -330,35 +329,53 @@ if(data["Engine"] >= 0.0 && data["Engine"] <= 35.0){
     $('.car-gradient .car-gradient4').removeClass('active');
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient3').addClass('active');
-} else if(data["Engine"] > 45.0){
+} else if(data["Engine"] >= 45.0){
 	$('.car-gradient .car-gradient1').removeClass('active');
     $('.car-gradient .car-gradient3').removeClass('active');
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient4').addClass('active');
 }
 
-
 // CAR TURNING
-if (data["Ax"]){
-	$('.car-2-inner').addClass('left-side-wheel-move');
-	$('.car-2-inner').addClass('right-side-wheel-move');
-	$('.car-2-inner').addClass('stop-side-wheel-move');
-}
+// let headinginit = data["Heading"];
+// console.log("Initial heading " + headinginit);
+// if(data["Heading"]){
+// 	console.log("Heading not changed");
+// 		$('.car-2-inner').addClass('stop-side-wheel-move');
+// }else if(data["Heading"] + 30 ){
+// 	console.log("turning left ");
+// 	//$('.car-2-inner').removeClass('stop-side-wheel-move');
+// 	$('.car-2-inner').addClass('left-side-wheel-move');
+// 	//$('.car-2-inner').addClass('stop-side-wheel-move');
+// }else if(data["Heading"] - 30){
+// 	console.log("turning right");
+// 	//$('.car-2-inner').removeClass('stop-side-wheel-move');
+// 	$('.car-2-inner').addClass('right-side-wheel-move');
+// 	//$('.car-2-inner').addClass('stop-side-wheel-move');
+// }
 
-inithead = data["Heading"];
-
-function checkHeading(inithead){
-	if(inithead + 20){
-	$('.car-2-inner').addClass('left-side-wheel-move');
-}else if(inithead - 20){
-	$('.car-2-inner').addClass('right-side-wheel-move');
-}else {
-	$('.car-2-inner').addClass('stop-side-wheel-move');
-}
-}
-
-setInterval(checkHeading, 4000);
 });
+
+function calcheading(data){
+const headinginit = data["Heading"];
+console.log("Initial heading " + headinginit);
+if(data["Heading"]){
+	console.log("Heading not changed");
+		$('.car-2-inner').addClass('stop-side-wheel-move');
+}else if(data["Heading"] + 30 ){
+	console.log("turning left ");
+	//$('.car-2-inner').removeClass('stop-side-wheel-move');
+	$('.car-2-inner').addClass('left-side-wheel-move');
+	//$('.car-2-inner').addClass('stop-side-wheel-move');
+}else if(data["Heading"] - 30){
+	console.log("turning right");
+	//$('.car-2-inner').removeClass('stop-side-wheel-move');
+	$('.car-2-inner').addClass('right-side-wheel-move');
+	//$('.car-2-inner').addClass('stop-side-wheel-move');
+}
+
+}
+
 
 var options = {
   staticGrid: true
@@ -370,12 +387,14 @@ $(function () {
 function SetMarker(data) {
 var carimage = {
 	path: google.maps.SymbolPath.CIRCLE,
-	scale: 5,
+	scale: 8,
 	rotation: data["Heading"]
 };
 	if (marker != null){
 		marker.setMap(null);
 	}
+
+
         //Set Marker on Map.
 				var myLatlng = new google.maps.LatLng(data["LA"], data["LO"]);
         marker = new google.maps.Marker({
