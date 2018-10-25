@@ -135,7 +135,6 @@
   </div>
 </div>
 <div id="data-receive">
-
 </div>
 </body>
 <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfUUHNbHPPG0Lx7k3nqBV-P-hmZ70k1AQ&libraries=geometry&callback=LoadMap" async defer></script>
@@ -286,7 +285,7 @@ var inithead;
 var socket = io.connect('http://localhost:3001');
 
 socket.on('cardata', function(data){
-	$("#data-receive").append(data["Heading"]);
+//$("#data-receive").append(data["Heading"]);
 speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
@@ -335,25 +334,6 @@ if(data["Engine"] >= 0.0 && data["Engine"] <= 35.0){
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient4').addClass('active');
 }
-
-// CAR TURNING
-// let headinginit = data["Heading"];
-// console.log("Initial heading " + headinginit);
-// if(data["Heading"]){
-// 	console.log("Heading not changed");
-// 		$('.car-2-inner').addClass('stop-side-wheel-move');
-// }else if(data["Heading"] + 30 ){
-// 	console.log("turning left ");
-// 	//$('.car-2-inner').removeClass('stop-side-wheel-move');
-// 	$('.car-2-inner').addClass('left-side-wheel-move');
-// 	//$('.car-2-inner').addClass('stop-side-wheel-move');
-// }else if(data["Heading"] - 30){
-// 	console.log("turning right");
-// 	//$('.car-2-inner').removeClass('stop-side-wheel-move');
-// 	$('.car-2-inner').addClass('right-side-wheel-move');
-// 	//$('.car-2-inner').addClass('stop-side-wheel-move');
-// }
-
 });
 
 function calcheading(data){
@@ -364,18 +344,13 @@ if(data["Heading"]){
 		$('.car-2-inner').addClass('stop-side-wheel-move');
 }else if(data["Heading"] + 30 ){
 	console.log("turning left ");
-	//$('.car-2-inner').removeClass('stop-side-wheel-move');
 	$('.car-2-inner').addClass('left-side-wheel-move');
-	//$('.car-2-inner').addClass('stop-side-wheel-move');
 }else if(data["Heading"] - 30){
 	console.log("turning right");
-	//$('.car-2-inner').removeClass('stop-side-wheel-move');
 	$('.car-2-inner').addClass('right-side-wheel-move');
-	//$('.car-2-inner').addClass('stop-side-wheel-move');
 }
 
 }
-
 
 var options = {
   staticGrid: true
@@ -394,7 +369,6 @@ var carimage = {
 		marker.setMap(null);
 	}
 
-
         //Set Marker on Map.
 				var myLatlng = new google.maps.LatLng(data["LA"], data["LO"]);
         marker = new google.maps.Marker({
@@ -405,7 +379,6 @@ var carimage = {
 				console.log('Getting new latlng: ' + myLatlng);
 				console.log('Getting position of marker:' + marker.getPosition());
 				map.panTo(marker.position);
-				//map.zoomTo(marker.position);
     };
 </script>
 </html>
