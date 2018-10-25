@@ -290,7 +290,6 @@ speedgauge.value = data["Speed"];
 rpmgauge.value = data["RPM"];
 coolantgauge.value = data["Coolant_temp"];
 SetMarker(data);
-setInterval(calcheading(data), 6000);
 
 // Car Speed Animations
 if (data["Speed"] == 0.0){
@@ -334,23 +333,38 @@ if(data["Engine"] >= 0.0 && data["Engine"] <= 35.0){
     $('.car-gradient .car-gradient2').removeClass('active');
     $('.car-gradient .car-gradient4').addClass('active');
 }
+
+if(data["Ht"] == -1){
+	console.log("wheel turned left" + data["Ht"]);
+	$('.car-2-inner').removeClass('right-side-wheel-move');
+	$('.car-2-inner').removeClass('left-side-wheel-move');
+	$('.car-2-inner').addClass('left-side-wheel-move');
+	// $('.car-2-inner').removeClass('right-side-wheel-move');
+
+}else if(data["Ht"] == 1){
+	console.log("wheel turned right" + data["Ht"]);
+	$('.car-2-inner').removeClass('right-side-wheel-move');
+	$('.car-2-inner').removeClass('left-side-wheel-move');
+	$('.car-2-inner').addClass('right-side-wheel-move');
+	// $('.car-2-inner').removeClass('left-side-wheel-move');
+}
 });
 
-function calcheading(data){
-const headinginit = data["Heading"];
-console.log("Initial heading " + headinginit);
-if(data["Heading"]){
-	console.log("Heading not changed");
-		$('.car-2-inner').addClass('stop-side-wheel-move');
-}else if(data["Heading"] + 30 ){
-	console.log("turning left ");
-	$('.car-2-inner').addClass('left-side-wheel-move');
-}else if(data["Heading"] - 30){
-	console.log("turning right");
-	$('.car-2-inner').addClass('right-side-wheel-move');
-}
+// function calcheading(data){
+// const headinginit = data["Heading"];
+// console.log("Initial heading " + headinginit);
+// if(data["Heading"]){
+// 	console.log("Heading not changed");
+// 		$('.car-2-inner').addClass('stop-side-wheel-move');
+// }else if(data["Heading"] + 30 ){
+// 	console.log("turning left ");
+// 	$('.car-2-inner').addClass('left-side-wheel-move');
+// }else if(data["Heading"] - 30){
+// 	console.log("turning right");
+// 	$('.car-2-inner').addClass('right-side-wheel-move');
+// }
 
-}
+// }
 
 var options = {
   staticGrid: true

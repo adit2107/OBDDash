@@ -201,11 +201,11 @@ img{max-width: 100%;}
     /* 0%,50%,100%{
         transform: rotate(0);
     } */
-    to{
-        transform: rotate(12deg);
-    }
     from{
         transform: rotate(12deg);
+    }
+    to{
+        transform: rotate(0deg);
     }
     /* 75%{
         transform: rotate(-12deg);        
@@ -216,11 +216,11 @@ img{max-width: 100%;}
     /* 0%,50%,100%{
         transform: rotate(0);
     } */
-    to{
-        transform: rotate(-12deg);
-    }
     from{
         transform: rotate(-12deg);
+    }
+    to{
+        transform: rotate(0deg);
     }
     /* 75%{
         transform: rotate(-12deg);        
