@@ -176,24 +176,24 @@ img{max-width: 100%;}
 
 /* car second */
 .car-2-inner.right-side-wheel-move .car2-wheel-1{
-    animation: wheel-right 6s forwards;
+    animation: wheel-right 8s forwards;
 }
 .car-2-inner.right-side-wheel-move .car2-wheel-2{
-    animation: wheel-right 6s forwards;
+    animation: wheel-right 8s forwards;
 }
 
 .car-2-inner.left-side-wheel-move .car2-wheel-1{
-    animation: wheel-left 6s forwards;
+    animation: wheel-left 8s forwards;
 }
 .car-2-inner.left-side-wheel-move .car2-wheel-2{
-    animation: wheel-left 6s forwards;
+    animation: wheel-left 8s forwards;
 }
 
 .car-2-inner.stop-side-wheel-move .car2-wheel-1{
-    animation: wheel-stop 6s forwards;
+    animation: wheel-stop 8s forwards;
 }
 .car-2-inner.stop-side-wheel-move .car2-wheel-2{
-    animation: wheel-stop 6s forwards;
+    animation: wheel-stop 8s forwards;
 }
 
 
@@ -274,7 +274,6 @@ img{max-width: 100%;}
     left: 0;
     right: 0;
     margin: 0 auto;
-    z-index: 1;
 }
 .car-gradient img.car-gradient1.active{
     animation: animate-01 1s linear;
@@ -286,11 +285,11 @@ img{max-width: 100%;}
 }
 .car-gradient img.car-gradient3.active{
     animation: animate-03 1s linear;
-    z-index: 3;
+    z-index: 2;
 }
 .car-gradient img.car-gradient4.active{
     animation: animate-04 1s linear;
-    z-index: 4;
+    z-index: 2;
 }
 
 @keyframes animate-01{
@@ -300,7 +299,7 @@ img{max-width: 100%;}
     }
     100%{
         visibility: visible;
-        opacity: 1;
+        opacity: 0;
     }
 }
 @keyframes animate-02{
@@ -310,7 +309,7 @@ img{max-width: 100%;}
     }
     40%,100%{
         visibility: visible;
-        opacity: 1;
+        opacity: 0;
     }
 }
 @keyframes animate-03{
@@ -320,7 +319,7 @@ img{max-width: 100%;}
     }
     20%,100%{
         visibility: visible;
-        opacity: 1;
+        opacity: 0;
     }
 }
 @keyframes animate-04{
@@ -330,7 +329,7 @@ img{max-width: 100%;}
     }
     20%,100%{
         visibility: visible;
-        opacity: 1;
+        opacity: 0;
     }
 }
 

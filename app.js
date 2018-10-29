@@ -14,6 +14,7 @@ var { EventHubClient, EventPosition } = require('azure-event-hubs');
 var ehClient;
 
 io.on('connection', function(socket){
+  //const queues = [];
 
   var printError = function (err) {
     console.log(err.message);
@@ -34,11 +35,12 @@ io.on('connection', function(socket){
     console.log('Telemetry received: ');
     var datarec = JSON.stringify(message.body);
     //console.log(message);
-    console.log(message.body);
+    //console.log(message.body);
     var datajson = JSON.parse(datarec);
-    //console.log(datajson);
+    console.log(datajson);
     socket.emit('cardata', datajson);
   };
+ 
 
 });
 

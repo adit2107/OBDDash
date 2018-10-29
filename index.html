@@ -60,7 +60,7 @@
 													<div class="car2-wheel-1"><img src="images/car2-wheel-left.png" alt=""></div>
 													<div class="car2-wheel-2"><img src="images/car2-wheel-right.png" alt=""></div>
 													<div class="car-gradient">
-														<img src="images/engine-part.png" alt="" class="car-gradient1">
+														<!-- <img src="images/engine-part.png" alt="" class="car-gradient1"> -->
 														<img src="images/engine-part2.png" alt="" class="car-gradient2">
 														<img src="images/engine-part3.png" alt="" class="car-gradient3">
 														<img src="images/engine-part4.png" alt="" class="car-gradient4">
@@ -350,21 +350,11 @@ if(data["Ht"] == -1){
 }
 });
 
-// function calcheading(data){
-// const headinginit = data["Heading"];
-// console.log("Initial heading " + headinginit);
-// if(data["Heading"]){
-// 	console.log("Heading not changed");
-// 		$('.car-2-inner').addClass('stop-side-wheel-move');
-// }else if(data["Heading"] + 30 ){
-// 	console.log("turning left ");
-// 	$('.car-2-inner').addClass('left-side-wheel-move');
-// }else if(data["Heading"] - 30){
-// 	console.log("turning right");
-// 	$('.car-2-inner').addClass('right-side-wheel-move');
-// }
+socket.on('caroff', function(data){
+	console.log("Program disconnected");
+	rpmgauge.value = 0;
+});
 
-// }
 
 var options = {
   staticGrid: true
