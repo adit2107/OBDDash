@@ -34,8 +34,7 @@ io.on('connection', function(socket){
   var printMessage = function (message) {
     console.log('Telemetry received: ');
     var datarec = JSON.stringify(message.body);
-    //console.log(message);
-    //console.log(message.body);
+    console.log(message.body);
     var datajson = JSON.parse(datarec);
     console.log(datajson);
     socket.emit('cardata', datajson);
