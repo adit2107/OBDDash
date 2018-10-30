@@ -14,8 +14,6 @@ var { EventHubClient, EventPosition } = require('azure-event-hubs');
 var ehClient;
 
 io.on('connection', function(socket){
-  //const queues = [];
-
   var printError = function (err) {
     console.log(err.message);
   };
@@ -39,8 +37,5 @@ io.on('connection', function(socket){
     console.log(datajson);
     socket.emit('cardata', datajson);
   };
- 
-
 });
-
 server.listen(3001);
