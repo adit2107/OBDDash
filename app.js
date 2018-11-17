@@ -38,4 +38,4 @@ io.on('connection', function(socket){
     socket.emit('cardata', datajson);
   };
 });
-server.listen(3001);
+server.listen(1337);

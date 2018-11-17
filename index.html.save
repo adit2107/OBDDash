@@ -282,7 +282,7 @@ var map;
 var bounds;
 var inithead;
 
-var socket = io.connect('http://13.67.38.77:80');
+var socket = io.connect('http://');
 
 socket.on('cardata', function(data){
 //$("#data-receive").append(data["Heading"]);
