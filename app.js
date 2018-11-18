@@ -5,7 +5,7 @@ const express = require('express');
 var Client = require('azure-iothub').Client;
 var connectionString = 'HostName=boschhub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=b732GY6TyjmYDiA8Mg/bZTLrYilD9JcodJI0g4GSskk=';
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
